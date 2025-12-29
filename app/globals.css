@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow: hidden;
+  }
+  body {
+    font-family: var(--font-patrick-hand), cursive;
+    background-color: #F6F6F6;
+    overflow: hidden;
+    height: 100vh;
+  }
+}
+
+@layer utilities {
+  .font-handwritten {
+    font-family: var(--font-patrick-hand), cursive;
+  }
+}
+
