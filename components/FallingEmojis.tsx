@@ -3,7 +3,15 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-const emojis = ['🐱', '💖', '✨', '😺'];
+interface FallingEmojisProps {
+  emojis?: string[];
+  count?: number;
+  opacity?: number;
+  speedMultiplier?: number;
+  spawnInterval?: number;
+}
+
+const defaultEmojis = ['🐱', '💖', '✨', '😺'];
 
 interface Emoji {
   id: number;
@@ -13,17 +21,23 @@ interface Emoji {
   duration: number;
 }
 
-export default function FallingEmojis() {
+export default function FallingEmojis({
+  emojis = defaultEmojis,
+  count = 8,
+  opacity = 0.8,
+  speedMultiplier = 1,
+  spawnInterval = 2000,
+}: FallingEmojisProps = {}) {
   const [emojiList, setEmojiList] = useState<Emoji[]>([]);
 
   useEffect(() => {
     // Create initial emojis
-    const initialEmojis: Emoji[] = Array.from({ length: 8 }, (_, i) => ({
+    const initialEmojis: Emoji[] = Array.from({ length: count }, (_, i) => ({
       id: i,
       emoji: emojis[Math.floor(Math.random() * emojis.length)],
       x: Math.random() * 100,
       size: Math.random() * 8 + 14, // 14px to 22px
-      duration: Math.random() * 3 + 8, // 8s to 11s
+      duration: (Math.random() * 3 + 8) / speedMultiplier, // Adjusted by speed multiplier
     }));
     setEmojiList(initialEmojis);
 
@@ -35,14 +49,14 @@ export default function FallingEmojis() {
           emoji: emojis[Math.floor(Math.random() * emojis.length)],
           x: Math.random() * 100,
           size: Math.random() * 8 + 14,
-          duration: Math.random() * 3 + 8,
+          duration: (Math.random() * 3 + 8) / speedMultiplier,
         };
-        return [...prev.slice(-7), newEmoji];
+        return [...prev.slice(-(count - 1)), newEmoji];
       });
-    }, 2000);
+    }, spawnInterval);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [emojis, count, speedMultiplier, spawnInterval]);
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -53,7 +67,7 @@ export default function FallingEmojis() {
           style={{
             left: `${item.x}%`,
             fontSize: `${item.size}px`,
-            opacity: 0.8,
+            opacity: opacity,
           }}
           initial={{ y: -50, x: 0 }}
           animate={{
