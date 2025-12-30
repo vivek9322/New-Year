@@ -10,6 +10,7 @@ export default function Home() {
   const router = useRouter();
   const [noButtonPosition, setNoButtonPosition] = useState({ x: 0, y: 0 });
   const noButtonRef = useRef<HTMLButtonElement>(null);
+  const yesButtonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleNoHover = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -79,6 +80,7 @@ export default function Home() {
       <div className="mt-5 flex flex-row items-center gap-4 relative z-10">
         {/* YES Button */}
         <motion.button
+          ref={yesButtonRef}
           onClick={handleYesClick}
           whileHover={{ y: -2 }}
           className="font-handwritten"
@@ -93,14 +95,14 @@ export default function Home() {
             cursor: 'pointer',
             transition: 'box-shadow 0.2s ease',
           }}
-          onHoverStart={(e) => {
-            if (e.currentTarget) {
-              e.currentTarget.style.boxShadow = '0 2px 0 #E2B45A';
+          onHoverStart={() => {
+            if (yesButtonRef.current) {
+              yesButtonRef.current.style.boxShadow = '0 2px 0 #E2B45A';
             }
           }}
-          onHoverEnd={(e) => {
-            if (e.currentTarget) {
-              e.currentTarget.style.boxShadow = '0 4px 0 #E2B45A';
+          onHoverEnd={() => {
+            if (yesButtonRef.current) {
+              yesButtonRef.current.style.boxShadow = '0 4px 0 #E2B45A';
             }
           }}
         >
