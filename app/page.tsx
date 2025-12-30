@@ -94,10 +94,14 @@ export default function Home() {
             transition: 'box-shadow 0.2s ease',
           }}
           onHoverStart={(e) => {
-            e.currentTarget.style.boxShadow = '0 2px 0 #E2B45A';
+            if (e.currentTarget) {
+              e.currentTarget.style.boxShadow = '0 2px 0 #E2B45A';
+            }
           }}
           onHoverEnd={(e) => {
-            e.currentTarget.style.boxShadow = '0 4px 0 #E2B45A';
+            if (e.currentTarget) {
+              e.currentTarget.style.boxShadow = '0 4px 0 #E2B45A';
+            }
           }}
         >
           YES
