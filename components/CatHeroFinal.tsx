@@ -5,16 +5,22 @@ import { motion } from 'framer-motion';
 
 export interface CatHeroFinalRef {
   nod: () => void;
+  glance: (direction: 'left' | 'right') => void;
 }
 
 const CatHeroFinal = forwardRef<CatHeroFinalRef>((props, ref) => {
   const [shouldNod, setShouldNod] = useState(false);
+  const [glanceDirection, setGlanceDirection] = useState<'left' | 'right' | null>(null);
   const [initialAnimationComplete, setInitialAnimationComplete] = useState(false);
 
   useImperativeHandle(ref, () => ({
     nod: () => {
       setShouldNod(true);
       setTimeout(() => setShouldNod(false), 400);
+    },
+    glance: (direction: 'left' | 'right') => {
+      setGlanceDirection(direction);
+      setTimeout(() => setGlanceDirection(null), 400);
     },
   }));
 
@@ -30,7 +36,13 @@ const CatHeroFinal = forwardRef<CatHeroFinalRef>((props, ref) => {
           ? [1, 1.015, 1]
           : 1,
         opacity: 1,
-        rotate: shouldNod ? [0, 2, 0] : 0,
+        rotate: shouldNod
+          ? [0, 2, 0]
+          : glanceDirection === 'left'
+          ? [0, -2, 0]
+          : glanceDirection === 'right'
+          ? [0, 2, 0]
+          : 0,
       }}
       transition={{
         scale: shouldNod
@@ -51,7 +63,7 @@ const CatHeroFinal = forwardRef<CatHeroFinalRef>((props, ref) => {
           duration: 0.7,
           ease: 'easeOut',
         },
-        rotate: shouldNod
+        rotate: shouldNod || glanceDirection
           ? {
               duration: 0.4,
               ease: 'easeInOut',
