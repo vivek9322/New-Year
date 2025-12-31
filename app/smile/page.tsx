@@ -95,8 +95,7 @@ export default function SmilePage() {
           <div
             className="relative"
             style={{
-              width: '220px',
-              maxWidth: '80%',
+              width: '65%',
               margin: '0 auto',
               borderRadius: '16px',
               boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
@@ -107,8 +106,7 @@ export default function SmilePage() {
               src="/shared-photo.jpg"
               alt=""
               style={{
-                width: '220px',
-                maxWidth: '100%',
+                width: '100%',
                 height: 'auto',
                 display: 'block',
                 borderRadius: '16px',
